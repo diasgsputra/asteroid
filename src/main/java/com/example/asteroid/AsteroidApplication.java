@@ -9,10 +9,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @SpringBootApplication
 @EnableWebMvc
 public class AsteroidApplication {
-//	@Bean
-//	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-//		return new MappingJackson2HttpMessageConverter();
-//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(AsteroidApplication.class, args);
