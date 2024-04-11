@@ -2,7 +2,6 @@ package com.example.asteroid.service;
 
 import com.example.asteroid.entity.CloseApproachData;
 import com.example.asteroid.entity.Asteroids;
-import com.example.asteroid.entity.NearEarthObjectsDate;
 import com.example.asteroid.entity.NearEarthObjects;
 import com.example.asteroid.response.AsteroidsResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,12 +28,12 @@ public class AsteroidServiceImpl implements AsteroidService {
   private HttpEntity<String> entity;
 
   @Override
-  public List<AsteroidsResponse> getClosestAsteroid() {
+  public List<AsteroidsResponse> getClosestAsteroid(String startDate, String endDate) {
     RestTemplate restTemplate = new RestTemplate();
     builder  = UriComponentsBuilder.fromHttpUrl(URI)
         .queryParam("api_key","2zHnloMyRZOOUBHBfma0ih4Deev6aJsYsZyGDJDc")
-        .queryParam("start_date","2015-09-07")
-        .queryParam("end_date","2015-09-08");
+        .queryParam("start_date",startDate)
+        .queryParam("end_date",endDate);
     String uriString = builder.toUriString();
     ResponseEntity<String> result = restTemplate.exchange(uriString,HttpMethod.GET,entity,String.class);
 
@@ -42,9 +42,11 @@ public class AsteroidServiceImpl implements AsteroidService {
     try {
       NearEarthObjects neo = objectMapper.readValue(result.getBody(), NearEarthObjects.class);
       if (neo != null && neo.getNearEarthObjects() != null) {
-        NearEarthObjectsDate neoDate = neo.getNearEarthObjects();
-        if (neoDate.getAsteroids() != null) {
-          listNeo =  neoDate.getAsteroids();
+        for (Map.Entry<String, List<Asteroids>> entry : neo.getNearEarthObjects().entrySet()) {
+          List<Asteroids> asteroids = entry.getValue();
+          if (asteroids != null) {
+            listNeo.addAll(asteroids);
+          }
         }
       }
     } catch (Exception e) {
