@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.example.asteroid.exception.BadRequestException;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,11 +36,10 @@ public class AsteroidServiceImpl implements AsteroidService {
         .queryParam("start_date",startDate)
         .queryParam("end_date",endDate);
     String uriString = builder.toUriString();
-    ResponseEntity<String> result = restTemplate.exchange(uriString,HttpMethod.GET,entity,String.class);
-
     //after get the response from nasa api in String, then mapping into our entity
     List<Asteroids> listNeo = new ArrayList<>();
     try {
+      ResponseEntity<String> result = restTemplate.exchange(uriString,HttpMethod.GET,entity,String.class);
       NearEarthObjects neo = objectMapper.readValue(result.getBody(), NearEarthObjects.class);
       if (neo != null && neo.getNearEarthObjects() != null) {
         for (Map.Entry<String, List<Asteroids>> entry : neo.getNearEarthObjects().entrySet()) {
@@ -50,7 +50,7 @@ public class AsteroidServiceImpl implements AsteroidService {
         }
       }
     } catch (Exception e) {
-      System.err.println("Error parsing JSON response: " + e.getMessage());
+      throw new BadRequestException("Date cannot more than 7 days");
     }
 
     //sort and pick only 10 elements
