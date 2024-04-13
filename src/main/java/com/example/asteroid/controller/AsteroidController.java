@@ -23,4 +23,11 @@ public class AsteroidController {
     BaseResponse response = new BaseResponse(asteroids);
     return ResponseEntity.ok(response);
   }
+
+  @GetMapping("/one-year-asteroids")
+  public ResponseEntity<BaseResponse> getAsteroids(@RequestParam(name="year", defaultValue = "2023") String year) {
+    String asteroids = asteroidService.getAsteroidInYear(year);
+    BaseResponse response = new BaseResponse(asteroids);
+    return ResponseEntity.ok(response);
+  }
 }
