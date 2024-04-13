@@ -1,10 +1,10 @@
 package com.example.asteroid.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-@NoArgsConstructor
 public class MissDistance {
   private String astronomical;
   private String lunar;
