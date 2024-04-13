@@ -6,6 +6,7 @@ import com.example.asteroid.entity.NearEarthObjects;
 import com.example.asteroid.response.AsteroidsResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +26,18 @@ public class AsteroidServiceImpl implements AsteroidService {
   @Autowired
   private ObjectMapper objectMapper;
   private UriComponentsBuilder builder;
-  private static final String URI = "https://api.nasa.gov/neo/rest/v1/feed";
+  @Value("${nasa.api.url}")
+  private String apiUrl;
+
+  @Value("${nasa.api.key}")
+  private String apiKey;
   private HttpEntity<String> entity;
 
   @Override
   public List<AsteroidsResponse> getClosestAsteroid(String startDate, String endDate) {
     RestTemplate restTemplate = new RestTemplate();
-    builder  = UriComponentsBuilder.fromHttpUrl(URI)
-        .queryParam("api_key","2zHnloMyRZOOUBHBfma0ih4Deev6aJsYsZyGDJDc")
+    builder  = UriComponentsBuilder.fromHttpUrl(apiUrl)
+        .queryParam("api_key",apiKey)
         .queryParam("start_date",startDate)
         .queryParam("end_date",endDate);
     String uriString = builder.toUriString();
@@ -75,7 +80,5 @@ public class AsteroidServiceImpl implements AsteroidService {
         .collect(Collectors.toList());
 
     return neoApiResponses;
-
   }
-
 }
