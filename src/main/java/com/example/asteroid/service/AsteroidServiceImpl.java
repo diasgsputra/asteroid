@@ -56,7 +56,7 @@ public class AsteroidServiceImpl implements AsteroidService {
   }
 
   @Override
-  public String getAsteroidInYear(String year) {
+  public String mappingOneYearAsteroid(String year) {
     LocalDate initialDate = LocalDate.of(Integer.parseInt(year), 1, 1);
     LocalDate finishDate = initialDate.plusYears(1).minusDays(1);
     LocalDate startDate = initialDate;
