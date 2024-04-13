@@ -17,8 +17,8 @@ public class AsteroidController {
   private AsteroidService asteroidService;
 
   @GetMapping("/asteroids")
-  public ResponseEntity<BaseResponse> getAsteroids(@RequestParam("start_date") String startDate,
-                                                              @RequestParam("end_date") String endDate) {
+  public ResponseEntity<BaseResponse> getAsteroids(@RequestParam(name="start_date", defaultValue = "2024-04-12") String startDate,
+                                                              @RequestParam(name="end_date", defaultValue = "2024-04-13") String endDate) {
     List<AsteroidsResponse> asteroids = asteroidService.getClosestAsteroid(startDate, endDate);
     BaseResponse response = new BaseResponse(asteroids);
     return ResponseEntity.ok(response);
