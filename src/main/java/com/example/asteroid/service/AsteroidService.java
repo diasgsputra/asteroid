@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface AsteroidService {
   List<AsteroidsResponse> getClosestAsteroid(String startDate, String endDate);
-  String getAsteroidInYear(String year);
+  String mappingOneYearAsteroid(String year);
   BaseResponse getAsteroidByDistance(Double distance);
 }
