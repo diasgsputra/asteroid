@@ -28,7 +28,8 @@ Once the application is running, you can access it at :
 ```http://localhost:8080```
 
 Configuration
-Change the database from server to local if you want to use your local database
+Change the database from server to local if you want to use your local database (in application.properties) 
+and import the asteroids.sql to your local database
 
 This repository is deployed at :
 Back-end :
