@@ -6,6 +6,7 @@ import com.example.asteroid.entity.Asteroids;
 import com.example.asteroid.entity.NearEarthObjects;
 import com.example.asteroid.repository.AsteroidRepository;
 import com.example.asteroid.response.AsteroidsResponse;
+import com.example.asteroid.response.BaseResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,6 +81,16 @@ public class AsteroidServiceImpl implements AsteroidService {
     asteroidRepository.saveAll(mappedAsteroid);
 
     return "Data saved";
+  }
+
+  @Override
+  public BaseResponse getAsteroidByDistance(Double distance){
+    List<AsteroidMapping> asteroids = asteroidRepository.getAsteroidByDistance(distance);
+    Long countAsteroids = asteroidRepository.countAsteroidByDistance(distance);
+
+    return new BaseResponse(asteroids.stream()
+        .map(AsteroidsResponse::new)
+        .collect(Collectors.toList()),countAsteroids);
   }
 
   private List<Asteroids> fetchDataFromNasa(String startDate, String endDate) {

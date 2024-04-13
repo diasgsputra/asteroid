@@ -20,14 +20,20 @@ public class AsteroidController {
   public ResponseEntity<BaseResponse> getAsteroids(@RequestParam(name="start_date", defaultValue = "2024-04-12") String startDate,
                                                               @RequestParam(name="end_date", defaultValue = "2024-04-13") String endDate) {
     List<AsteroidsResponse> asteroids = asteroidService.getClosestAsteroid(startDate, endDate);
-    BaseResponse response = new BaseResponse(asteroids);
+    BaseResponse response = new BaseResponse(asteroids,10L);
     return ResponseEntity.ok(response);
   }
 
   @GetMapping("/one-year-asteroids")
-  public ResponseEntity<BaseResponse> getAsteroids(@RequestParam(name="year", defaultValue = "2023") String year) {
+  public ResponseEntity<BaseResponse> getAsteroidsByYear(@RequestParam(name="year", defaultValue = "2023") String year) {
     String asteroids = asteroidService.getAsteroidInYear(year);
     BaseResponse response = new BaseResponse(asteroids);
     return ResponseEntity.ok(response);
+  }
+
+  @GetMapping("/asteroids-by-distance")
+  public BaseResponse getAsteroidsByDistance(@RequestParam(name="distance", defaultValue = "5000000") Double distance) {
+    BaseResponse asteroids = asteroidService.getAsteroidByDistance(distance);
+    return ResponseEntity.ok(asteroids).getBody();
   }
 }
