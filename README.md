@@ -1,6 +1,7 @@
 # asteroid
 System Design :
-![image](https://github.com/diasgsputra/asteroid/assets/60877754/6010d0de-256d-4841-95e9-e1077c6b8691)
+![image](https://github.com/diasgsputra/asteroid/assets/60877754/79803df7-39b6-41cb-bad3-5686771a4e7c)
+
 
 
 Description :
@@ -42,6 +43,6 @@ See the documentation at :
 
 Because the deployed service using free server, so you may experience some slow response issue :
 1. At the first time we hit the endpoint, it may take quite long time because it need more time when first run. After that the response will be faster.
-2. Service 'Mapping One Year Data' (api/one-year-asteroids)(2nd api in system design) will run slowly because it takes time to get data from NASA API then insert into database (looping per 7 days until 1 year)
+2. Service 'Mapping one year asteroids' (2nd api in system design) will run slowly because it takes time to get data from NASA API then insert into database (looping per 7 days until 1 year)
 3. If you face error 500 at service 'Get asteroid by distance'(3rd api in system design), it may because the database got to much request. You can try several minutes later.
 
