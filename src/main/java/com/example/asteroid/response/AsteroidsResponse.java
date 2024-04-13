@@ -1,5 +1,6 @@
 package com.example.asteroid.response;
 
+import com.example.asteroid.entity.AsteroidMapping;
 import com.example.asteroid.entity.CloseApproachData;
 import com.example.asteroid.entity.Asteroids;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,5 +30,13 @@ public class AsteroidsResponse {
     this.distance = Double.parseDouble(df.format(Double.parseDouble(closeApproachData.getMissDistance().getKilometers())));
     this.velocity = Double.parseDouble(df.format(Double.parseDouble(closeApproachData.getRelativeVelocity().getKilometersPerHour())));
 
+  }
+
+  public AsteroidsResponse(AsteroidMapping neo) {
+    this.id = neo.getId();
+    this.name = neo.getName();
+    this.isPotentiallyHazardous = neo.isPotentiallyHazardous();
+    this.distance = neo.getDistance();
+    this.velocity = neo.getVelocity();
   }
 }
